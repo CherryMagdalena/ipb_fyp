@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Cherry/AndroidStudioProjects/ipb_fyp/lib/screens/home_screen.dart';
-import 'file:///C:/Users/Cherry/AndroidStudioProjects/ipb_fyp/lib/resources/color.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(MyApp());

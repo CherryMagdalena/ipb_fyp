@@ -1,6 +1,8 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
+import 'package:ipb_fyp/components/menu_button.dart';
 import 'package:ipb_fyp/components/online_or_offline_text.dart';
+import 'package:ipb_fyp/resources/text_style.dart';
 import '../components/rounded_clipper.dart';
 import '../resources/color.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,7 +24,9 @@ class _OfflineHomeScreenState extends State<OfflineHomeScreen> {
         DataConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case DataConnectionStatus.connected:
-          final snackBar = SnackBar(content: Text('Connected to internet!'));
+          final snackBar = SnackBar(
+              backgroundColor: Colors.green,
+              content: Text('Connected to internet!'));
           Scaffold.of(context).showSnackBar(snackBar);
           break;
         case DataConnectionStatus.disconnected:
@@ -34,7 +38,7 @@ class _OfflineHomeScreenState extends State<OfflineHomeScreen> {
 
   @override
   void dispose() {
-    connectionListener.cancel();
+    connectionListener ?? connectionListener.cancel();
     super.dispose();
   }
 
@@ -47,13 +51,13 @@ class _OfflineHomeScreenState extends State<OfflineHomeScreen> {
         ClipPath(
           clipper: RoundedClipper(),
           child: Container(
-              height: 300.0,
+              height: 270.0,
               width: double.infinity,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [kSecondaryColor, Colors.black12])),
+                      colors: [kDarkerColor, Colors.black45])),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
@@ -76,11 +80,7 @@ class _OfflineHomeScreenState extends State<OfflineHomeScreen> {
                             left: 45,
                             child: Text(
                               'Offline',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 40.0,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold),
+                              style: kHomeScreenTitle,
                             ),
                           ),
                           Positioned(
@@ -98,7 +98,9 @@ class _OfflineHomeScreenState extends State<OfflineHomeScreen> {
                     ),
                   ])),
         ),
-        OnlineOrOfflineText(widget.pageController, isOnline: false)
+        OnlineOrOfflineText(widget.pageController, isOnline: false),
+        MenuButton('SMS Broadcast', Icons.email),
+        MenuButton('Track Location', Icons.location_searching)
       ],
     );
   }

@@ -1,6 +1,5 @@
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
-import 'package:ipb_fyp/components/alert_dialog.dart';
+import 'package:ipb_fyp/components/floating_action_button.dart';
 import 'package:ipb_fyp/resources/color.dart';
 import 'package:ipb_fyp/components/bottom_app_bar.dart';
 import 'package:ipb_fyp/screens/offline_home_screen.dart';
@@ -28,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: CustomFloatingButton(),
       bottomNavigationBar: CustomBottomAppBar(),
       backgroundColor: kBackgroundColor,
       body: PageView(controller: pageController, children: [

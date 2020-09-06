@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app_settings/app_settings.dart';
 
 showNoConnectionDialog(BuildContext context) {
   return showDialog(
@@ -11,10 +12,16 @@ showNoConnectionDialog(BuildContext context) {
               'Please check your internet connection or move to Offline Mode'),
           actions: [
             FlatButton(
-              child: Text('Check Connection'),
+              child: Text('Open Settings'),
+              onPressed: () {
+                AppSettings.openWIFISettings();
+              },
             ),
             FlatButton(
-              child: Text('Move to Offline Mode'),
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             )
           ],
         );

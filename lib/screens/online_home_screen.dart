@@ -1,10 +1,13 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ipb_fyp/components/alert_dialog.dart';
 import '../components/rounded_clipper.dart';
 import '../resources/color.dart';
 import 'package:ipb_fyp/components/online_or_offline_text.dart';
+import 'package:ipb_fyp/resources/text_style.dart';
+import 'package:ipb_fyp/components/menu_button.dart';
 
 class OnlineHomeScreen extends StatefulWidget {
   final PageController pageController;
@@ -21,7 +24,6 @@ class _OnlineHomeScreenState extends State<OnlineHomeScreen> {
   @override
   void initState() {
     //Check if device is connected to the internet, if not then cannot open this screen
-
     DataConnectionChecker().hasConnection.then((isOnline) {
       connectionListener =
           DataConnectionChecker().onStatusChange.listen((status) {
@@ -46,62 +48,62 @@ class _OnlineHomeScreenState extends State<OnlineHomeScreen> {
 
   @override
   void dispose() {
-    connectionListener.cancel();
+    connectionListener ?? connectionListener.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        ClipPath(
-          clipper: RoundedClipper(),
-          child: Container(
-              height: 300.0,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [kPrimaryColor, kDarkestColor])),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 20.0),
-                            child: Image.asset(
-                              'image/cropped_location.png',
-                              width: 175,
-                              fit: BoxFit.fitWidth,
-                              alignment: Alignment.centerLeft,
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          ClipPath(
+            clipper: RoundedClipper(),
+            child: Container(
+                height: 270.0,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [kPrimaryColor, kDarkestColor])),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left: 20.0),
+                              child: Image.asset(
+                                'image/cropped_location.png',
+                                width: 175,
+                                fit: BoxFit.fitWidth,
+                                alignment: Alignment.centerLeft,
+                              ),
                             ),
-                          ),
-                          Positioned(
-                            top: 75,
-                            left: 220,
-                            child: Text(
-                              'Online',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 40.0,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold),
+                            Positioned(
+                              top: 75,
+                              left: 220,
+                              child: Text(
+                                'Online',
+                                style: kHomeScreenTitle,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ])),
-        ),
-        OnlineOrOfflineText(widget.pageController, isOnline: true)
-      ],
+                    ])),
+          ),
+          OnlineOrOfflineText(widget.pageController, isOnline: true),
+          MenuButton('Online Chat', Icons.chat_bubble),
+          MenuButton('Live Location', Icons.location_on),
+        ],
+      ),
     );
   }
 }
