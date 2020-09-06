@@ -1,5 +1,7 @@
+import 'package:contact_picker/contact_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ipb_fyp/components/floating_action_button.dart';
+import 'package:ipb_fyp/model/contact_list.dart';
 import 'package:ipb_fyp/resources/color.dart';
 import 'package:ipb_fyp/components/bottom_app_bar.dart';
 import 'package:ipb_fyp/screens/offline_home_screen.dart';

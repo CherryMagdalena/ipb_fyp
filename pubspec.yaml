@@ -35,6 +35,7 @@ dependencies:
   contact_picker: ^0.0.2
   fab_circular_menu: ^1.0.0
   shared_preferences: ^0.5.10
+  flutter_sms: 2.0.0
 
 dev_dependencies:
   flutter_test:

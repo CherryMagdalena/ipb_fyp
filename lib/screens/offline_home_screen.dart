@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ipb_fyp/components/menu_button.dart';
 import 'package:ipb_fyp/components/online_or_offline_text.dart';
 import 'package:ipb_fyp/resources/text_style.dart';
+import 'file:///C:/Users/Cherry/AndroidStudioProjects/ipb_fyp/lib/components/sms_broadcast.dart';
 import '../components/rounded_clipper.dart';
 import '../resources/color.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -99,8 +100,14 @@ class _OfflineHomeScreenState extends State<OfflineHomeScreen> {
                   ])),
         ),
         OnlineOrOfflineText(widget.pageController, isOnline: false),
-        MenuButton('SMS Broadcast', Icons.email),
-        MenuButton('Track Location', Icons.location_searching)
+        MenuButton(
+          text: 'SMS Broadcast',
+          iconData: Icons.email,
+          onPressed: () {
+            SMSBroadcast().broadcastSMS();
+          },
+        ),
+        MenuButton(text: 'Track Location', iconData: Icons.location_searching)
       ],
     );
   }

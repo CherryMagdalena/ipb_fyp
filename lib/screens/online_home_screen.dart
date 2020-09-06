@@ -100,8 +100,8 @@ class _OnlineHomeScreenState extends State<OnlineHomeScreen> {
                     ])),
           ),
           OnlineOrOfflineText(widget.pageController, isOnline: true),
-          MenuButton('Online Chat', Icons.chat_bubble),
-          MenuButton('Live Location', Icons.location_on),
+          MenuButton(text: 'Online Chat', iconData: Icons.chat_bubble),
+          MenuButton(text: 'Live Location', iconData: Icons.location_on)
         ],
       ),
     );
