@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ipb_fyp/components/bottom_app_bar.dart';
 import 'package:ipb_fyp/components/rounded_clipper.dart';
+import 'package:ipb_fyp/model/contact_list.dart';
 import 'package:ipb_fyp/resources/color.dart';
 import 'package:contact_picker/contact_picker.dart';
 import 'package:ipb_fyp/resources/text_style.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ContactScreen extends StatefulWidget {
   @override
@@ -14,88 +14,25 @@ class ContactScreen extends StatefulWidget {
 
 class _ContactScreenState extends State<ContactScreen> {
   List<Contact> contactList = [];
-  Future<SharedPreferences> _sharedPreferences =
-      SharedPreferences.getInstance();
-  final String kNameKey = 'Contact Name';
-  final String kPhoneKey = 'Contact Number';
-
-  _addContact() {
-    ContactPicker().selectContact().then((value) {
-      setState(() {
-        bool isSimilar = false;
-        for (Contact contact in contactList) {
-          isSimilar = contact.fullName == value.fullName;
-          if (isSimilar) {
-            break;
-          }
-        }
-        if (!isSimilar) {
-          //Maximum 5 contacts
-          if (contactList.length < 5) {
-            contactList.add(value);
-            _addToSharedPreferences(value, contactList.length - 1);
-          }
-        }
-      });
-    });
-  }
-
-  _addToSharedPreferences(Contact value, int index) async {
-    print('store');
-    SharedPreferences sharedPreferences = await _sharedPreferences;
-    String nameKey = kNameKey + index.toString();
-    String phoneKey = kPhoneKey + index.toString();
-    await sharedPreferences.setString(nameKey, value.fullName);
-    await sharedPreferences.setString(phoneKey, value.phoneNumber.number);
-  }
-
-  void _retrieveFromSharedPreferences() async {
-    print('retrieve');
-    SharedPreferences sharedPreferences = await _sharedPreferences;
-    int entries = sharedPreferences.getKeys().length;
-    List<Contact> contacts = [];
-    if (entries != 0) {
-      //Entries includes name and phone number, therefore divide by 2 to get the amount of contacts
-      entries = (entries / 2).round();
-      for (int i = 0; i < entries; i++) {
-        String name = sharedPreferences.getString(kNameKey + i.toString());
-        PhoneNumber phone = PhoneNumber(
-            number: sharedPreferences.getString(kPhoneKey + i.toString()),
-            label: '');
-        contacts.add(Contact(fullName: name, phoneNumber: phone));
-      }
-    }
-    setState(() {
-      contactList = contacts;
-    });
-  }
-
-  _emptySharedPreferences() async {
-    SharedPreferences sharedPreferences = await _sharedPreferences;
-    setState(() {
-      sharedPreferences.clear();
-    });
-  }
-
-  _removeContact(int index) async {
-    contactList.remove(contactList[index]);
-    SharedPreferences sharedPreferences = await _sharedPreferences;
-    sharedPreferences.clear();
-    for (int i = 0; i <= contactList.length; i++) {
-      _addToSharedPreferences(contactList[i], i);
-    }
-    print(sharedPreferences.getKeys());
-  }
-
-  _checkSharedPreferences() async {
-    SharedPreferences sharedPreferences = await _sharedPreferences;
-    print(sharedPreferences.getKeys());
-  }
-
   @override
   void initState() {
-    _retrieveFromSharedPreferences();
+    //Set State
+    _retrieveContacts();
     super.initState();
+  }
+
+  void _retrieveContacts() async {
+    await ContactList().retrieveContactList();
+    setState(() {
+      contactList = ContactList.contactList;
+    });
+  }
+
+  void _addContact() async {
+    await ContactList().addContact();
+    setState(() {
+      contactList = ContactList.contactList;
+    });
   }
 
   @override
@@ -135,13 +72,22 @@ class _ContactScreenState extends State<ContactScreen> {
                 )),
             RaisedButton(
               color: kSecondaryColor,
-              onPressed: _addContact,
+              onPressed: () {
+                _addContact();
+              },
               child: Text('Add Contact'),
             ),
             RaisedButton(
-              child: Text('Check shared preferences'),
+              child: Text('Check sp'),
               onPressed: () {
-                _checkSharedPreferences();
+                ContactList().checkSharedPreferences();
+              },
+            ),
+            RaisedButton(
+              child: Text('Clear sp'),
+              onPressed: () {
+                ContactList().clearSharedPreferences();
+                contactList.clear();
               },
             ),
             SizedBox(
@@ -164,7 +110,7 @@ class _ContactScreenState extends State<ContactScreen> {
                                 icon: Icon(Icons.delete),
                                 onPressed: () {
                                   setState(() {
-                                    _removeContact(index);
+                                    ContactList().removeContact(index);
                                   });
                                 },
                               ));
