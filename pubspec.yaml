@@ -36,6 +36,10 @@ dependencies:
   fab_circular_menu: ^1.0.0
   shared_preferences: ^0.5.10
   flutter_sms: 2.0.0
+  geolocator: ^6.0.0
+  sms_maintained: ^0.2.5
+  sms: ^0.2.0
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

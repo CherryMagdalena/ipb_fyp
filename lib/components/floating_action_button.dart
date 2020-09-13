@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:ipb_fyp/resources/color.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:ipb_fyp/screens/contact_screen.dart';
+import 'package:ipb_fyp/services/location_tracker.dart';
+import 'package:ipb_fyp/services/sms_broadcast.dart';
 
 class CustomFloatingButton extends StatefulWidget {
   @override
@@ -23,7 +25,15 @@ class _CustomFloatingButtonState extends State<CustomFloatingButton> {
             return ContactScreen();
           }));
         }),
-        FloatingActionButtonMenu(Icons.add, () {}),
+        FloatingActionButtonMenu(Icons.location_on, () async {
+          String location = await LocationTracker().getLocationString();
+          bool messageSent = SMSBroadcast().broadcastSMS(location);
+          final snackBar = SnackBar(
+              content: messageSent
+                  ? Text('Location sent!')
+                  : Text('Message failed to be sent'));
+          Scaffold.of(context).showSnackBar(snackBar);
+        }),
       ],
     );
 //    return FloatingActionButton(
