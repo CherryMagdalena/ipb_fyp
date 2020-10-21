@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ipb_fyp/components/bottom_app_bar.dart';
-import 'package:ipb_fyp/components/rounded_clipper.dart';
+import 'package:ipb_fyp/components/page_header.dart';
 import 'package:ipb_fyp/model/contact_list.dart';
 import 'package:ipb_fyp/resources/color.dart';
 import 'package:contact_picker/contact_picker.dart';
@@ -44,32 +44,7 @@ class _ContactScreenState extends State<ContactScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipPath(
-                clipper: RoundedClipper(),
-                child: Container(
-                  height: 230.0,
-                  width: double.infinity,
-                  color: kPrimaryColor,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        Center(
-                          child: Text(
-                            'Contact List',
-                            style: kHomeScreenTitle,
-                          ),
-                        ),
-                      ]),
-                )),
+            PageHeader('Contact List'),
             RaisedButton(
               color: kSecondaryColor,
               onPressed: () {

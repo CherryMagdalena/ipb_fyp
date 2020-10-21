@@ -6,6 +6,7 @@ import 'package:ipb_fyp/resources/color.dart';
 import 'package:ipb_fyp/components/bottom_app_bar.dart';
 import 'package:ipb_fyp/screens/offline_home_screen.dart';
 import 'package:ipb_fyp/screens/online_home_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,8 +18,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    print('init');
     super.initState();
   }
+//
+//  void initializeFirebase() async {
+//    print('init firebase');
+//    await Firebase.initializeApp();
+//    print('skip firebase');
+//  }
 
   @override
   void dispose() {
@@ -28,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('build home screen');
     return Scaffold(
       floatingActionButton: CustomFloatingButton(),
       bottomNavigationBar: CustomBottomAppBar(),

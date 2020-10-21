@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ipb_fyp/resources/color.dart';
 import 'package:ipb_fyp/screens/home_screen.dart';
+import 'package:ipb_fyp/screens/log_in_screen.dart';
+import 'package:ipb_fyp/screens/settings_screen.dart';
 
 class CustomBottomAppBar extends StatelessWidget {
   @override
@@ -40,6 +42,12 @@ class CustomBottomAppBar extends StatelessWidget {
             ),
             PageIcon(
               iconData: Icons.settings,
+              onPressed: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) {
+                  return SettingsScreen();
+                }));
+              },
             )
           ],
         ));

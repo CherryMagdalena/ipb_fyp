@@ -4,7 +4,8 @@ import 'package:flutter_sms/flutter_sms.dart';
 import 'package:sms/sms.dart';
 
 class SMSBroadcast {
-  static List<String> _getRecipients() {
+  static Future<List<String>> _getRecipients() async {
+    await ContactList().retrieveContactList();
     print('getRecipients');
     List<Contact> contacts = ContactList.contactList ?? [];
     List<String> contactNumbers = [];
@@ -15,8 +16,7 @@ class SMSBroadcast {
   }
 
   Future<String> openSMSRoom() async {
-    await ContactList().retrieveContactList();
-    final List<String> recipientsPhoneNumber = _getRecipients();
+    final List<String> recipientsPhoneNumber = await _getRecipients();
     print('recipients:');
     print(recipientsPhoneNumber);
     String _result =
@@ -27,9 +27,9 @@ class SMSBroadcast {
     return _result;
   }
 
-  bool broadcastSMS(String message) {
+  Future<bool> broadcastSMS(String message) async {
     SmsSender smsSender = SmsSender();
-    List<String> recipientList = _getRecipients();
+    List<String> recipientList = await _getRecipients();
     for (String recipient in recipientList) {
       SmsMessage smsMessage = SmsMessage(recipient, message);
       smsSender.sendSms(smsMessage);
@@ -40,5 +40,11 @@ class SMSBroadcast {
       });
     }
     return true;
+  }
+
+  broadcastLinkSMS(String userId){
+    String link = 'example.com';
+    String message = 'Hello, I request your assistance in monitoring my location.\nPlease go to $link and enter the following:'
+        '\nUser ID: $userId';
   }
 }

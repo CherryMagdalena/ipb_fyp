@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:ipb_fyp/components/menu_button.dart';
 import 'package:ipb_fyp/components/online_or_offline_text.dart';
 import 'package:ipb_fyp/resources/text_style.dart';
+import 'package:ipb_fyp/services/location_tracker.dart';
 import 'package:ipb_fyp/services/sms_broadcast.dart';
 import '../components/rounded_clipper.dart';
 import '../resources/color.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+bool isTracking;
 
 class OfflineHomeScreen extends StatefulWidget {
   final PageController pageController;
@@ -18,9 +21,11 @@ class OfflineHomeScreen extends StatefulWidget {
 
 class _OfflineHomeScreenState extends State<OfflineHomeScreen> {
   var connectionListener;
+  LocationTracker _locationTracker = LocationTracker();
 
   @override
   void initState() {
+    isTracking ??= false;
     connectionListener =
         DataConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
@@ -100,14 +105,44 @@ class _OfflineHomeScreenState extends State<OfflineHomeScreen> {
                   ])),
         ),
         OnlineOrOfflineText(widget.pageController, isOnline: false),
-        MenuButton(
+        InactiveMenuButton(
           text: 'SMS Broadcast',
           iconData: Icons.email,
           onPressed: () {
             SMSBroadcast().openSMSRoom();
           },
         ),
-        MenuButton(text: 'Track Location', iconData: Icons.location_searching)
+        Container(
+          child: isTracking
+              ? ActiveMenuButton(
+                  text: 'Track Location',
+                  iconData: Icons.location_searching,
+                  onPressed: () {
+                    _locationTracker.stopLocationUpdate();
+                    setState(() {
+                      isTracking = false;
+                    });
+                  },
+                )
+              : InactiveMenuButton(
+                  text: 'Track Location',
+                  iconData: Icons.location_searching,
+                  onPressed: () async {
+                    setState(() {
+                      isTracking = true;
+                    });
+                    int duration = 1;
+                    Future.delayed(Duration(minutes: duration), () {
+                      isTracking = false;
+                      if (this.mounted) {
+                        setState(() {});
+                      }
+                    });
+                    _locationTracker.updateLocation(
+                        duration: duration, intervalInMinute: 0.5);
+                  },
+                ),
+        )
       ],
     );
   }
