@@ -4,7 +4,12 @@ class LogInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(width: 500.0, height: 500.0, child: LogInForm()));
+        body: Center(
+            child: Container(
+                width: 500.0,
+                height: 300.0,
+                color: Colors.black45,
+                child: LogInForm())));
   }
 }
 
@@ -27,10 +32,13 @@ class _LogInFormState extends State<LogInForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            SizedBox(
+              height: 50.0,
+            ),
             TextFormField(
               controller: _emailController,
               decoration: const InputDecoration(
-                  labelText: 'Email',
+                  labelText: 'User ID',
                   border: OutlineInputBorder(),
                   filled: true,
                   fillColor: Colors.white54),
@@ -42,21 +50,21 @@ class _LogInFormState extends State<LogInForm> {
               },
             ),
             SizedBox(height: 30.0),
-            TextFormField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                  filled: true,
-                  fillColor: Colors.white54),
-              validator: (String value) {
-                if (value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
+//            TextFormField(
+//              controller: _passwordController,
+//              obscureText: true,
+//              decoration: const InputDecoration(
+//                  labelText: 'Password',
+//                  border: OutlineInputBorder(),
+//                  filled: true,
+//                  fillColor: Colors.white54),
+//              validator: (String value) {
+//                if (value.isEmpty) {
+//                  return 'Please enter some text';
+//                }
+//                return null;
+//              },
+//            ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               alignment: Alignment.center,
